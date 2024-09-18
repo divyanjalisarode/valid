@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+</head>
+<body>
+    <form id="registrationForm" onsubmit="return validation();">
+        <label>Username:<input type="text" id="username" name="username" required></label>
+        <br>
+
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="male">Male</input>
+        <input type="radio" id="female" name="gender" value="female">Female</input>
+        <br>
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" rows="4" cols="50" required></textarea>
+        <br>
+
+        <label>Password:<input type="password" id="password" name="password" required></label>
+        <br>
+
+        <label>Phone Number:<input type="text" id="phone" name="phone" placeholder="123-456-7890" required></label>
+        <br>
+
+        <label>Age:<input type="number" id="age" name="age" required></label>
+        <br>
+
+        <input type="submit" value="Submit"/>
+    </form>
+
+    <script>
+        function validation() {
+            let isValid = true;
+            const username = document.getElementById('username').value;
+            if (!/^[a-zA-Z]+$/.test(username)) {
+                alert('Username must contain only letters.');
+                isValid = false;
+            }
+
+            // Gender validation
+            const gender = document.querySelector('input[name="gender"]:checked');
+            if (!gender) {
+                alert('Please select a gender.');
+                isValid = false;
+            }
+
+            // Address validation
+            const address = document.getElementById('address').value;
+            if (address.trim() === '') {
+                alert('Address is required.');
+                isValid = false;
+            }
+
+            // Password validation
+            const password = document.getElementById('password').value;
+            const pass = /^(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+            if (!pass.test(password)) {
+                alert('Password must be at least 6 characters long, include one digit and one special character.');
+                isValid = false;
+            }
+
+            // Phone number validation
+            const phone = document.getElementById('phone').value;
+            if (!/^\d{3}-\d{3}-\d{4}$/.test(phone)) {
+                alert('Phone number must be in the format 123-456-7890.');
+                isValid = false;
+            }
+
+            // Age validation
+            const age = parseInt(document.getElementById('age').value, 10);
+            if (isNaN(age) || age <= 18) {
+                alert('Age must be greater than 18.');
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert('Registration successful!');
+            }
+
+            return isValid; // Return false to prevent form submission if validation fails
+        }
+    </script>
+</body>
+</html>
